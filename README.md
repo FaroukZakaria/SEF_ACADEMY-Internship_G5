@@ -6,13 +6,13 @@ Follow these exact steps to pull the repository and spin up your local environme
 # 1. Clone the project from our repository destination
 git clone https://github.com/FaroukZakaria/SEF_ACADEMY-Internship_G5
 ```
-# 2. Navigate inside the React project workspace folder
+### 2. Navigate inside the React project workspace folder
 cd my-react-app
 
-# 3. Download and install team packages (React Router, etc.)
+### 3. Download and install team packages (React Router, etc.)
 npm install
 
-# 4. Launch your local high-speed Vite development server
+### 4. Launch your local high-speed Vite development server
 npm run dev
 
 ## 🎨 2. Global Amazon Theme Utility Tokens
