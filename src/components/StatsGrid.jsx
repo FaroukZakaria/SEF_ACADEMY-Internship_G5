@@ -12,7 +12,6 @@ import { PiUsersThreeLight } from "react-icons/pi";
 
 export default function StatsGrid() {
   const [dashboard, setDashboard] = useState(null);
-  const [salesOfMonth, setSalesOfMonth] = useState(0);
   const [customers, setCustomers] = useState(null);
   useEffect(() => {
     const getDashboard = async () => {
@@ -21,38 +20,12 @@ export default function StatsGrid() {
           "https://e-commerce-api-3wara.vercel.app/orders/admin/dashboard",
         );
         setDashboard(data.dashboard);
+        
       } catch (error) {
         console.log(error);
       }
     };
     getDashboard();
-  }, []);
-  useEffect(() => {
-    const getSales = async () => {
-      try {
-        const { data } = await api.get(
-          "https://e-commerce-api-3wara.vercel.app/orders/admin/carts",
-        );
-
-        const accountSales = data.carts
-          .filter((cart) => {
-            const date = new Date(cart.createdAt);
-            const now = new Date();
-
-            return (
-              date.getMonth() === now.getMonth() &&
-              date.getFullYear() === now.getFullYear()
-            );
-          })
-          .reduce((total, cart) => total + cart.subtotal, 0);
-
-        setSalesOfMonth(accountSales);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getSales();
   }, []);
 
   useEffect(() => {
@@ -105,7 +78,7 @@ export default function StatsGrid() {
       formColor: "from-emerald-500",
       toColor: " to-teal-400",
       title: "this month",
-      value: `$${salesOfMonth.toFixed(2)}`,
+      value: `$${(dashboard?.revenue?.thisMonth ?? 0).toFixed(2)}`,
       info: "Monthly sales target",
       icon: <IoCartOutline size={24} className="text-white" />,
     },
