@@ -20,10 +20,9 @@ export default function DashboardView() {
                     <TopProductsCard />
                 </div>
 
-t
-                <div>
+                {/* <div>
                     <RecentOrdersTable />
-                </div>
+                </div> */}
                 
             </div>
         </DashboardLayout>

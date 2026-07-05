@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import DashboardView from './pages/DashboardView';
-import Users from './pages/Users';
-import Products from './pages/Products';
-import AddProduct from './pages/AddProduct';
-import Orders from './pages/Orders';
-import Cart from './pages/Cart';
-import Settings from './pages/Settings';
+// import Users from './pages/Users';
+// import Products from './pages/Products';
+// import AddProduct from './pages/AddProduct';
+// import Orders from './pages/Orders';
+// import Cart from './pages/Cart';
+// import Settings from './pages/Settings';
 
 import DashboardLayout from './components/DashboardLayout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -29,7 +29,7 @@ function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/users"
           element={
             <ProtectedRoute>
@@ -38,9 +38,9 @@ function App() {
               </DashboardLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
 
-        <Route
+        {/* <Route
           path="/products"
           element={
             <ProtectedRoute>
@@ -49,9 +49,9 @@ function App() {
               </DashboardLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
 
-        <Route
+        {/* <Route
           path="/products/add"
           element={
             <ProtectedRoute>
@@ -97,7 +97,7 @@ function App() {
               </DashboardLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
