@@ -19,3 +19,8 @@
   --color-amazon-textDark: #0f1111;
   --color-amazon-textLight: #565959;
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-amazon-surface) inset !important;
+  -webkit-text-fill-color: var(--color-amazon-textDark) !important;
+}
