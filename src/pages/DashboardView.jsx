@@ -4,9 +4,9 @@ import RecentOrdersTable from '../components/RecentOrdersTable';
 import OrderStatusCard from '../components/OrderStatusCard';
 import TopProductsCard from '../components/TopProductsCard';
 
+
 export default function DashboardView() {
     return (
-
         
             <div className='flex flex-col gap-6 p-4 lg:p-8 w-full h-auto'>
 
@@ -24,7 +24,6 @@ export default function DashboardView() {
                     <RecentOrdersTable />
                 </div>
                 
-            </div>
-        
+            </div>        
     );
 }
