@@ -32,7 +32,7 @@ function App() {
           }
         />
 
-        {/* <Route
+        {<Route
           path="/users"
           element={
             <ProtectedRoute>
@@ -41,9 +41,9 @@ function App() {
               </DashboardLayout>
             </ProtectedRoute>
           }
-        /> */}
+        />}
 
-        {/* <Route
+        {<Route
           path="/products"
           element={
             <ProtectedRoute>
@@ -52,9 +52,9 @@ function App() {
               </DashboardLayout>
             </ProtectedRoute>
           }
-        /> */}
+        />}
 
-        {/* <Route
+        {<Route
           path="/products/add"
           element={
             <ProtectedRoute>
@@ -100,7 +100,7 @@ function App() {
               </DashboardLayout>
             </ProtectedRoute>
           }
-        /> */}
+        />}
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
