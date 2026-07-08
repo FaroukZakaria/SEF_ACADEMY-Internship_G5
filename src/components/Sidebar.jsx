@@ -1,4 +1,111 @@
- 
+// import {
+//   FiHome,
+//   FiUsers,
+//   FiPlus,
+//   FiFileText,
+//   FiShoppingCart,
+//   FiSettings,
+// } from "react-icons/fi";
+
+// import { AiFillProduct } from "react-icons/ai";
+
+// import { NavLink } from "react-router-dom";
+
+// import "./Sidebar.css";
+
+// export default function SideBar() {
+//     return (
+//         <div className="sidebar">
+//             <div>
+//                 {/* Logo */}
+//                 <div className="logo">
+//                     <p>COMMERCE</p>
+//                     <h2>Admin Panel</h2>
+//                 </div>
+
+//                 {/* Links */}
+//                 <div className="sidebar-links">
+//                     <NavLink
+//                         to="/Home"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <FiHome />
+//                         <span>Dashboard</span>
+//                     </NavLink>
+
+//                     <NavLink
+//                         to="/users"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <FiUsers />
+//                         <span>Users</span>
+//                     </NavLink>
+
+//                     <NavLink
+//                         to="/products"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <AiFillProduct />
+//                         <span>Products</span>
+//                     </NavLink>
+
+//                     <NavLink
+//                         to="/add-product"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <FiPlus />
+//                         <span>Add Product</span>
+//                     </NavLink>
+
+//                     <NavLink
+//                         to="/orders"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <FiFileText />
+//                         <span>Orders</span>
+//                     </NavLink>
+
+//                     <NavLink
+//                         to="/carts"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <FiShoppingCart />
+//                         <span>Carts</span>
+//                     </NavLink>
+
+//                     <NavLink
+//                         to="/settings"
+//                         className={({ isActive }) =>
+//                             isActive ? "sidebar-link active" : "sidebar-link"
+//                         }
+//                     >
+//                         <FiSettings />
+//                         <span>Settings</span>
+//                     </NavLink>
+//                 </div>
+//             </div>
+
+//             {/* Footer */}
+//             <div className="sidebar-footer">
+//                 <div className="version-card">
+//                     <h4>LIVE</h4>
+//                     <p>Connected to the Commerce API</p>
+//                 </div>
+//             </div>
+//         </div>)
+// }
 import {
   FiHome,
   FiUsers,
@@ -9,101 +116,75 @@ import {
 } from "react-icons/fi";
 
 import { AiFillProduct } from "react-icons/ai";
-
 import { NavLink } from "react-router-dom";
 
-import "./Sidebar.css";
-
 export default function SideBar() {
-    return (
-        <div className="sidebar">
-            <div>
-                {/* Logo */}
-                <div className="logo">
-                    <p>COMMERCE</p>
-                    <h2>Admin Panel</h2>
-                </div>
+  const linkClass = ({ isActive }) =>
+    `flex items-center gap-3 rounded-xl px-4 py-3 text-white transition-all duration-300 hover:bg-amazon-navy hover:translate-x-1 ${
+      isActive ? "bg-amazon-navy border-l-4 border-amazon-orange shadow-lg" : ""
+    }`;
 
-                {/* Links */}
-                <div className="sidebar-links">
-                    <NavLink
-                        to="/Home"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <FiHome />
-                        <span>Dashboard</span>
-                    </NavLink>
+  return (
+    <div className="fixed left-0 top-0 flex h-screen w-72 flex-col bg-amazon-lightNavy px-5 text-white">
+      <div>
+        {/* Logo */}
+        <div className="my-9">
+          <p className="mb-1 text-[11px] uppercase tracking-[4px] text-amazon-blue">
+            COMMERCE
+          </p>
 
-                    <NavLink
-                        to="/users"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <FiUsers />
-                        <span>Users</span>
-                    </NavLink>
+          <h2 className="text-2xl font-bold">Admin Panel</h2>
+        </div>
 
-                    <NavLink
-                        to="/products"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <AiFillProduct />
-                        <span>Products</span>
-                    </NavLink>
+        {/* Links */}
+        <div className="flex flex-col gap-2">
+          <NavLink to="/Home" className={linkClass}>
+            <FiHome className="text-lg" />
+            <span>Dashboard</span>
+          </NavLink>
 
-                    <NavLink
-                        to="/add-product"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <FiPlus />
-                        <span>Add Product</span>
-                    </NavLink>
+          <NavLink to="/users" className={linkClass}>
+            <FiUsers className="text-lg" />
+            <span>Users</span>
+          </NavLink>
 
-                    <NavLink
-                        to="/orders"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <FiFileText />
-                        <span>Orders</span>
-                    </NavLink>
+          <NavLink to="/products" className={linkClass}>
+            <AiFillProduct className="text-lg" />
+            <span>Products</span>
+          </NavLink>
 
-                    <NavLink
-                        to="/carts"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <FiShoppingCart />
-                        <span>Carts</span>
-                    </NavLink>
+          <NavLink to="/add-product" className={linkClass}>
+            <FiPlus className="text-lg" />
+            <span>Add Product</span>
+          </NavLink>
 
-                    <NavLink
-                        to="/settings"
-                        className={({ isActive }) =>
-                            isActive ? "sidebar-link active" : "sidebar-link"
-                        }
-                    >
-                        <FiSettings />
-                        <span>Settings</span>
-                    </NavLink>
-                </div>
-            </div>
+          <NavLink to="/orders" className={linkClass}>
+            <FiFileText className="text-lg" />
+            <span>Orders</span>
+          </NavLink>
 
-            {/* Footer */}
-            <div className="sidebar-footer">
-                <div className="version-card">
-                    <h4>LIVE</h4>
-                    <p>Connected to the Commerce API</p>
-                </div>
-            </div>
-        </div>)
+          <NavLink to="/carts" className={linkClass}>
+            <FiShoppingCart className="text-lg" />
+            <span>Carts</span>
+          </NavLink>
+
+          <NavLink to="/settings" className={linkClass}>
+            <FiSettings className="text-lg" />
+            <span>Settings</span>
+          </NavLink>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-auto pb-5">
+        <div className="cursor-pointer rounded-2xl bg-gradient-to-br from-amazon-blue to-amazon-orange p-[18px] shadow-lg">
+          <h4 className="mb-1.5 text-[15px] font-semibold">LIVE</h4>
+
+          <p className="text-sm leading-6 text-white">
+            Connected to the Commerce API
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
