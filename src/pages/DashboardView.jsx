@@ -22,7 +22,7 @@ export default function DashboardView() {
 
                 <div className='w-full h-auto'>
                     <RecentOrdersTable />
-                </div> */}
+                </div>
                 
             </div>        
     );
