@@ -1,30 +1,46 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import MobileSidebar from "./sidebar/MobileSidebar";
+import Topbar from "./Topbar";
+import DashboardView from "../pages/DashboardView";
+import LoadingSpinner from "./LoadingSpinner";
+import axios from "/src/api/axios";
 import { FaBars } from "react-icons/fa";
 
-export default function DashboardLayout({ children }) {
+const DashboardLayout = () => {
+  const [isSessionLoading, setIsSessionLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchAdminSession = async () => {
+      try {
+        const response = await axios.get("/auth/me");
+        setUserData(response.data.user || null);
+      } catch (error) {
+        console.error("Error fetching admin data from API", error);
+      } finally {
+        setIsSessionLoading(false);
+      }
+    };
+
+    fetchAdminSession();
+  }, []);
+
   const [open, setOpen] = useState(false);
+
   return (
+    <>
     <div className="flex h-screen w-screen overflow-hidden bg-amazon-bg">
-      {/* Sidebar  */}
       <Sidebar />
       <MobileSidebar open={open} setOpen={setOpen} />
-
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Topbar  */}
-        <header className="flex h-16 items-center border-b border-amazon-border px-4">
-          <button
-            onClick={() => setOpen(true)}
-            className="rounded-lg bg-amazon-lightNavy p-3 text-amazon-surface lg:hidden"
-          >
-            <FaBars />
-          </button>
-
-          <span>[Topbar Row]</span>
-        </header>
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+      <div className="dashboard-main lg:pl-72">
+        {/* Pass the session data directly into your Topbar */}
+        {isSessionLoading ? <LoadingSpinner message="Loading session data..." /> : <Topbar userData={userData} onMenuClick={() => setOpen(true)} />}
+        <DashboardView userData={userData} />
       </div>
     </div>
+    </>
   );
-}
+};
+
+export default DashboardLayout;
