@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Login from './pages/Login';
-import DashboardView from './pages/DashboardView';
+import Login from "./pages/Login";
+import DashboardView from "./pages/DashboardView";
 // import Users from './pages/Users';
 // import Products from './pages/Products';
 // import AddProduct from './pages/AddProduct';
@@ -11,102 +11,94 @@ import DashboardView from './pages/DashboardView';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import DashboardLayout from './components/DashboardLayout';
-import ProtectedRoute from './components/ProtectedRoute';
+import DashboardLayout from "./components/DashboardLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import useThemeStore from "./store/themeStore";
+import { useEffect } from "react";
 
 function App() {
+  const { theme } = useThemeStore();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            <DashboardLayout>
+          <Route
+            path="/dashboard"
+            element={
+              <DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardView />
+                </ProtectedRoute>
+              </DashboardLayout>
+            }
+          />
+
+          <Route
+            path="/users"
+            element={
               <ProtectedRoute>
-                <DashboardView />
+                <DashboardLayout>{/* <Users /> */}</DashboardLayout>
               </ProtectedRoute>
-            </DashboardLayout>
-          }
-        />
+            }
+          />
 
-        <Route
-          path="/users"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                {/* <Users /> */}
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>{/* <Products /> */}</DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/products"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                {/* <Products /> */}
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/products/add"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>{/* <AddProduct /> */}</DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/products/add"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                {/* <AddProduct /> */}
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>{/* <Orders /> */}</DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-        
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>{/* <Cart /> */}</DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/orders"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                {/* <Orders /> */}
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>{/* <Settings /> */}</DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-        
-
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                {/* <Cart /> */}
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                {/* <Settings /> */}
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    </BrowserRouter>
-    <ToastContainer position="top-center" autoClose={2000} theme="colored" />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer position="top-center" autoClose={2000} theme="colored" />
     </>
   );
 }

@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Input = ({
-  label,
-  type,
-  placeholder,
-  register,
-  error,
-  icon,
-}) => {
+const Input = ({ label, type, placeholder, register, error, icon }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const isPassword = type === "password";
@@ -19,40 +12,28 @@ const Input = ({
         {label}
       </label>
 
-      <div className="flex items-center rounded-xl border border-amazon-border bg-white px-4 focus-within:border-amazon-orange">
-        <span className="text-amazon-textLight">
-          {icon}
-        </span>
+      <div className="flex items-center rounded-xl border border-amazon-border bg-amazon-surface px-4 transition-colors focus-within:border-amazon-orange">
+        <span className="text-amazon-textLight">{icon}</span>
 
         <input
-          type={
-            isPassword
-              ? showPassword
-                ? "text"
-                : "password"
-              : type
-          }
+          type={isPassword ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
           {...register}
-          className="w-full bg-transparent px-3 py-3 outline-none"
+          className="w-full bg-transparent px-3 py-3 outline-none text-amazon-textDark placeholder:text-amazon-textLight"
         />
 
         {isPassword && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="cursor-pointer text-amazon-textLight hover:text-amazon-textDark transition"
+            className="cursor-pointer text-amazon-textLight transition hover:text-amazon-textDark"
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         )}
       </div>
 
-      {error && (
-        <p className="mt-1 text-sm text-red-500">
-          {error.message}
-        </p>
-      )}
+      {error && <p className="mt-1 text-sm text-red-500">{error.message}</p>}
     </div>
   );
 };

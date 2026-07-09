@@ -92,7 +92,7 @@ const LoginForm = () => {
           <div className="h-px flex-1 bg-amazon-border" />
         </div>
 
-        <button onClick={handleGoogleLogin} className="flex w-full items-center justify-center gap-3 rounded-xl border border-amazon-border bg-white py-3 font-semibold hover:bg-gray-100 cursor-pointer">
+        <button onClick={handleGoogleLogin} className="flex w-full items-center justify-center gap-3 rounded-xl border border-amazon-border bg-amazon-surface text-amazon-textDark py-3 font-semibold hover:opacity-90 cursor-pointer">
           <FcGoogle size={22} />
           Continue with Google
         </button>
