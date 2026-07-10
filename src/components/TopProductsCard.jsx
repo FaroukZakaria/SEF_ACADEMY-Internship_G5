@@ -1,6 +1,6 @@
-
 import { useState, useEffect } from "react";
 import api from '../api/axios';
+import TopProductsCardSkeleton from "./TopProductsCardSkeleton";
 
 function TopProductsCard() {
   const [topProducts, setTopProducts] = useState([]);
@@ -57,6 +57,12 @@ function TopProductsCard() {
 
     getTopProducts();
   }, []);
+
+  if (loading) {
+    return (
+        <TopProductsCardSkeleton />
+    );
+  }
 
   return (
     <div className="rounded-3xl border border-amazon-border bg-amazon-surface/90 p-6 shadow-xl">

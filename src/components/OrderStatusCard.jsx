@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
-import LoadingSpinner from './LoadingSpinner';
+import OrderStatusCardSkeleton from './OrderStatusCardSkeleton';
 
 const ORDER_STATUS_CONFIG = [
   {
@@ -68,7 +68,7 @@ const OrderStatusCard = () => {
     const controller = new AbortController();
 
     const fetchOrderStatusStats = async () => {
-      setIsLoading(true);
+      setIsLoading(true); 
       setErrorMessage(null);
 
       try {
@@ -84,10 +84,14 @@ const OrderStatusCard = () => {
 
         setOrderStatusCounts(orders);
       } catch (error) {
-        if (error.name==='CanceledError') return;
-        setErrorMessage('Unable to load order statistics. Please try again.');
+        if (error.name !== 'CanceledError') {
+          setErrorMessage('Unable to load order statistics. Please try again.');
+          setIsLoading(false); 
+        }
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     };
 
@@ -97,11 +101,7 @@ const OrderStatusCard = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="bg-amazon-surface border border-amazon-border rounded-2xl shadow-sm p-6">
-        <LoadingSpinner message="Loading order statistics..." />
-      </div>
-    );
+    return <OrderStatusCardSkeleton />;
   }
 
   if (errorMessage) {
@@ -134,7 +134,7 @@ const OrderStatusCard = () => {
       <p className="text-xs text-gray-500 mb-5">Live fulfillment breakdown</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {ORDER_STATUS_CONFIG.map(({ key, label, indicatorClass, bgClass, borderClass, textClass, numberClass }) => (
+        {ORDER_STATUS_CONFIG?.map(({ key, label, indicatorClass, bgClass, borderClass, textClass, numberClass }) => (
           <div
             key={key}
             className={`${bgClass} border ${borderClass} rounded-2xl shadow-sm p-5 flex flex-col gap-4 transition-all duration-300 ease-out hover:shadow-md hover:-translate-y-1`}

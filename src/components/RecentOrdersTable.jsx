@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios.js"
+import RecentOrdersSkeleton from "./RecentOrdersTableSkeleton.jsx";
 
 const STATUS_COLORS = {
   confirmed:  { text: "text-green-300"},
@@ -20,18 +21,26 @@ function formatMoney(amount) {
 
 export default function RecentOrders() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getOrders = async () => {
       try {
+        setLoading(true);
         const { data } = await api.get("https://e-commerce-api-3wara.vercel.app/orders/admin?limit=5");
         setOrders(data.orders || []);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getOrders();
   }, []);
+
+  if (loading) {
+    return <RecentOrdersSkeleton />;
+  }
 
   return (
     <div className="bg-amazon-surface border border-amazon-border rounded-4xl p-6 w-full mx-auto">
@@ -66,7 +75,7 @@ export default function RecentOrders() {
               </p>
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center">
                 <p
                   className={`bg-amazon-lightNavy ${STATUS_COLORS[order.status].text} text-amazon-lightNavy w-24 text-center px-3 py-1.5 rounded-2xl text-xs font-bold`}
                 >

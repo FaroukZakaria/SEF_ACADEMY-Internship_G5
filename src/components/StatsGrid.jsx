@@ -38,37 +38,6 @@ export default function StatsGrid() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const getDashboard = async () => {
-  //     try {
-  //       const { data } = await api.get(
-  //         "https://e-commerce-api-3wara.vercel.app/orders/admin/dashboard",
-  //       );
-  //       setDashboard(data.dashboard);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getDashboard();
-  // }, []);
-
-  // useEffect(() => {
-  //   const getCustomers = async () => {
-  //     try {
-  //       const { data } = await api.get(
-  //         "https://e-commerce-api-3wara.vercel.app/users/all",
-  //       );
-  //       const customersCount = data.users.filter(
-  //         (customer) => customer.role === "customer",
-  //       ).length;
-  //       setCustomers(customersCount);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getCustomers();
-  // }, []);
-
   const formatCurrency = (value) =>
     `$${Number(value ?? 0).toLocaleString("en-US", {
       minimumFractionDigits: 2,
@@ -148,7 +117,7 @@ export default function StatsGrid() {
           Monitor your storefront with AI-style clarity and live API metrics
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
         {CardsLoop.map((card, index) => (
           <div
             key={index}
@@ -157,8 +126,8 @@ export default function StatsGrid() {
             <div
               className={`absolute left-0 top-0 h-1 w-full bg-linear-to-br ${card.formColor} ${card.toColor}`}
             />
-            <div className="flex items-start justify-between">
-              <div>
+            <div className="flex flex-col xl:flex-row items-start justify-between">
+              <div className="order-2 xl:order-1">
                 <h3 className="text-md font-medium capitalize text-amazon-textLight/60">
                   {card.title}
                 </h3>
@@ -170,7 +139,7 @@ export default function StatsGrid() {
                 </p>
               </div>
               <div
-                className={`flex h-14 w-14 items-center justify-center rounded-3xl bg-linear-to-br ${card.formColor} ${card.toColor} transition-all duration-300 hover:rotate-12 hover:shadow hover:scale-110`}
+                className={`order-1 xl:order-2 flex h-14 w-14 items-center justify-center rounded-3xl bg-linear-to-br ${card.formColor} ${card.toColor} transition-all duration-300 hover:rotate-12 hover:shadow hover:scale-110`}
               >
                 {card.icon}
               </div>

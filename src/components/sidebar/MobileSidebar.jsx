@@ -33,7 +33,7 @@ const MobileSidebar = ({ open, setOpen }) => {
           ))}
         </nav>
 
-        <div className="absolute bottom-5 left-0 mx-4 rounded-2xl bg-linear-to-br from-amazon-orange to-amazon-yellow text-amazon-navy p-6">
+        <div className="absolute bottom-5 left-0 mx-4 rounded-2xl bg-linear-to-br from-amazon-orange to-amazon-yellow text-amazon-navy p-2 lg:p-6">
           <p className="mb-2 text-xs tracking-[6px]">LIVE</p>
           <p className="text-sm font-semibold leading-6">
             Connected to the E-Commerce API
