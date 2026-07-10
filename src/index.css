@@ -1,23 +1,57 @@
 @import "tailwindcss";
 
+:root {
+  --amazon-navy: #131921;
+  --amazon-lightNavy: #232f3e;
+
+  --amazon-orange: #ff9900;
+  --amazon-orangeHover: #e68a00;
+  --amazon-yellow: #febd69;
+
+  --amazon-bg: #eaeded;
+  --amazon-surface: #ffffff;
+  --amazon-border: #d5dbdb;
+
+  --amazon-textDark: #0f1111;
+  --amazon-textLight: #565959;
+}
+
+.dark {
+  --amazon-navy: #0f172a;
+  --amazon-lightNavy: #1e293b;
+
+  --amazon-orange: #ff9900;
+  --amazon-orangeHover: #ffb84d;
+  --amazon-yellow: #febd69;
+
+  --amazon-bg: #020617;
+  --amazon-surface: #0f172a;
+  --amazon-border: #334155;
+
+  --amazon-textDark: #f8fafc;
+  --amazon-textLight: #cbd5e1;
+}
+
 @theme {
-  /* Signature Amazon Header & Deep Navy accents */
-  --color-amazon-navy: #131921;
-  --color-amazon-lightNavy: #232f3e;
-  
-  /* Primary Actions & Buttons */
-  --color-amazon-orange: #ff9900;
-  --color-amazon-orangeHover: #e68a00;
-  --color-amazon-yellow: #febd69;
-  
-  /* Layout Backgrounds & Surfaces */
-  --color-amazon-bg: #eaeded;
-  --color-amazon-surface: #ffffff;
-  --color-amazon-border: #d5dbdb;
-  
-  /* Text Hierarchy */
-  --color-amazon-textDark: #0f1111;
-  --color-amazon-textLight: #565959;
+  --color-amazon-navy: var(--amazon-navy);
+  --color-amazon-lightNavy: var(--amazon-lightNavy);
+
+  --color-amazon-orange: var(--amazon-orange);
+  --color-amazon-orangeHover: var(--amazon-orangeHover);
+  --color-amazon-yellow: var(--amazon-yellow);
+
+  --color-amazon-bg: var(--amazon-bg);
+  --color-amazon-surface: var(--amazon-surface);
+  --color-amazon-border: var(--amazon-border);
+
+  --color-amazon-textDark: var(--amazon-textDark);
+  --color-amazon-textLight: var(--amazon-textLight);
+}
+
+html,
+body {
+  background: var(--amazon-bg);
+  color: var(--amazon-textDark);
 }
 
 input:-webkit-autofill {

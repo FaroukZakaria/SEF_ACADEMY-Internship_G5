@@ -1,4 +1,3 @@
-import { FaTimes } from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import { sidebarLinks } from "./SidebarLinks";
 
@@ -13,26 +12,15 @@ const MobileSidebar = ({ open, setOpen }) => {
       )}
 
       <aside
-        className={`fixed left-0 top-0 z-50 h-screen w-72 bg-amazon-navy/90 transition-transform duration-300 lg:hidden
+        className={`fixed left-0 top-20 z-50 h-[calc(100vh-5rem)] w-72 bg-amazon-navy/90 transition-transform duration-300 lg:hidden
         ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <div className="flex items-center justify-between border-b border-amazon-lightNavy p-5">
-          <div className="">
-            <p className="text-xs tracking-[5px] text-amazon-yellow uppercase">
-              COMMERCE
-            </p>
+        <div className="border-b border-amazon-lightNavy p-5">
+          <p className="text-xs tracking-[5px] text-amazon-yellow uppercase">
+            COMMERCE
+          </p>
 
-            <h2 className="text-2xl font-bold text-amazon-surface">
-              Admin Panel
-            </h2>
-          </div>
-
-          <button
-            onClick={() => setOpen(false)}
-            className="text-amazon-surface"
-          >
-            <FaTimes />
-          </button>
+          <h2 className="text-2xl font-bold text-white">Admin Panel</h2>
         </div>
 
         <nav className="space-y-1 px-5 py-3">

@@ -8,7 +8,7 @@ const Sidebar = () => {
         <p className="text-xs tracking-[5px] text-amazon-yellow uppercase">
           COMMERCE
         </p>
-        <h2 className="text-2xl font-bold text-amazon-surface">Admin Panel</h2>
+        <h2 className="text-2xl font-bold text-white">Admin Panel</h2>
       </div>
 
       <nav className="flex-1 space-y-1 p-5">

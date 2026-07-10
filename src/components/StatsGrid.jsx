@@ -6,40 +6,75 @@ import { MdOutlineAttachMoney } from "react-icons/md";
 import { IoCartOutline } from "react-icons/io5";
 import { BsBoxSeam } from "react-icons/bs";
 import { PiUsersThreeLight } from "react-icons/pi";
+import StatsGridSkeleton from "./StatsGridSkeleton";
 
 export default function StatsGrid() {
   const [dashboard, setDashboard] = useState(null);
   const [customers, setCustomers] = useState(null);
-  useEffect(() => {
-    const getDashboard = async () => {
-      try {
-        const { data } = await api.get(
-          "https://e-commerce-api-3wara.vercel.app/orders/admin/dashboard",
-        );
-        setDashboard(data.dashboard);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getDashboard();
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getCustomers = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await api.get(
-          "https://e-commerce-api-3wara.vercel.app/users/all",
-        );
-        const customersCount = data.users.filter(
-          (customer) => customer.role === "customer",
+        const [dashboardRes, usersRes] = await Promise.all([
+          api.get("/orders/admin/dashboard"),
+          api.get("/users/all"),
+        ]);
+
+        setDashboard(dashboardRes.data.dashboard);
+
+        const customersCount = usersRes.data.users.filter(
+          (user) => user.role === "customer",
         ).length;
+
         setCustomers(customersCount);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
-    getCustomers();
+
+    fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   const getDashboard = async () => {
+  //     try {
+  //       const { data } = await api.get(
+  //         "https://e-commerce-api-3wara.vercel.app/orders/admin/dashboard",
+  //       );
+  //       setDashboard(data.dashboard);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getDashboard();
+  // }, []);
+
+  // useEffect(() => {
+  //   const getCustomers = async () => {
+  //     try {
+  //       const { data } = await api.get(
+  //         "https://e-commerce-api-3wara.vercel.app/users/all",
+  //       );
+  //       const customersCount = data.users.filter(
+  //         (customer) => customer.role === "customer",
+  //       ).length;
+  //       setCustomers(customersCount);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getCustomers();
+  // }, []);
+
+  const formatCurrency = (value) =>
+    `$${Number(value ?? 0).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+
   const CardsLoop = [
     {
       formColor: "from-orange-500",
@@ -66,7 +101,7 @@ export default function StatsGrid() {
       // because if total is undefined, toFixed() returns undefined
       // and || will display "0" instead of "0.00".
       // Use:
-      value: `$${(dashboard?.revenue?.total ?? 0).toFixed(2)}`,
+      value: formatCurrency(dashboard?.revenue?.total),
       info: "Total gross revenue",
       icon: <MdOutlineAttachMoney size={24} className="text-white" />,
     },
@@ -74,7 +109,7 @@ export default function StatsGrid() {
       formColor: "from-emerald-500",
       toColor: " to-teal-400",
       title: "this month",
-      value: `$${(dashboard?.revenue?.thisMonth ?? 0).toFixed(2)}`,
+      value: formatCurrency(dashboard?.revenue?.thisMonth),
       info: "Monthly sales target",
       icon: <IoCartOutline size={24} className="text-white" />,
     },
@@ -95,6 +130,11 @@ export default function StatsGrid() {
       icon: <PiUsersThreeLight size={24} className="text-white" />,
     },
   ];
+
+  if (loading) {
+    return <StatsGridSkeleton />;
+  }
+
   return (
     <>
       <div className="p-6 bg-amazon-surface border border-amazon-border rounded-[28px] shadow-sm text-amazon-textDark font-bold">
