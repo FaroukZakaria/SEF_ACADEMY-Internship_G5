@@ -2,12 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/Login";
 import DashboardView from "./pages/DashboardView";
-// import Users from './pages/Users';
-// import Products from './pages/Products';
-// import AddProduct from './pages/AddProduct';
-// import Orders from './pages/Orders';
-// import Cart from './pages/Cart';
-// import Settings from './pages/Settings';
+// import Users from './pages/UsersView';
+// import Products from './pages/ProductsView';
+// import AddProduct from './pages/AddProductView';
+// import Orders from './pages/OrdersView';
+// import Cart from './pages/CartView';
+// import Settings from './pages/SettingsView';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
