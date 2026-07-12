@@ -30,19 +30,19 @@ const DashboardLayout = () => {
 
   return (
     <>
-    <ProtectedRoute>
-    {isSessionLoading ? <LoadingSpinner message="Loading session data..." /> :
-    <>
-      <Sidebar />
-      <MobileSidebar open={open} setOpen={setOpen} />
-      <div className="dashboard-main bg-amazon-bg lg:pl-72">
-       <Topbar userData={userData} open={open} onMenuClick={() => setOpen((prev) => !prev)} />
-        <DashboardView userData={userData} />
-      </div>
+      {isSessionLoading ? <LoadingSpinner message="Loading session data..." /> :
+      <>
+        <Sidebar />
+        <MobileSidebar open={open} setOpen={setOpen} />
+        <div className="dashboard-main bg-amazon-bg lg:pl-72">
+        <Topbar userData={userData} open={open} onMenuClick={() => setOpen((prev) => !prev)} />
+        <ProtectedRoute>
+          <DashboardView userData={userData} />
+        </ProtectedRoute>
+        </div>
       </>}
-    </ProtectedRoute>
     </>
   );
-};
+}
 
 export default DashboardLayout;
