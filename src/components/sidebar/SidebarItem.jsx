@@ -8,11 +8,11 @@ const SidebarItem = ({ item, onClick }) => {
       to={item.path}
       onClick={onClick}
       className={({ isActive }) =>
-        `flex items-center gap-4 rounded-xl px-4 py-3 text-sm font-medium transition-all text-white
+        `flex items-center gap-4 rounded-xl px-4 py-3 text-sm font-medium transition-all 
     ${
       isActive
-        ? "bg-amazon-lightNavy "
-        : "hover:bg-amazon-lightNavy"
+        ? "bg-amazon-lightNavy text-amazon-textBase"
+        : "hover:bg-amazon-lightNavy hover:text-amazon-textBase text-amazon-textLight"
     }`
       }
     >

@@ -12,8 +12,11 @@
   --amazon-surface: #ffffff;
   --amazon-border: #d5dbdb;
 
+  --amazon-textBase: #fff;
   --amazon-textDark: #0f1111;
   --amazon-textLight: #565959;
+
+  --destructive: #dd0606;
 }
 
 .dark {
@@ -28,8 +31,11 @@
   --amazon-surface: #0f172a;
   --amazon-border: #334155;
 
+  --amazon-textBase: #fff;
   --amazon-textDark: #f8fafc;
   --amazon-textLight: #cbd5e1;
+
+  --destructive: #cf0606;
 }
 
 @theme {
@@ -44,8 +50,11 @@
   --color-amazon-surface: var(--amazon-surface);
   --color-amazon-border: var(--amazon-border);
 
+  --color-amazon-textBase: var(--amazon-textBase);
   --color-amazon-textDark: var(--amazon-textDark);
   --color-amazon-textLight: var(--amazon-textLight);
+  
+  --color-destructive: var(--destructive);
 }
 
 html,

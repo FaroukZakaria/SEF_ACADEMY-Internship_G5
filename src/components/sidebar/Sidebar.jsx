@@ -3,12 +3,12 @@ import { sidebarLinks } from "./SidebarLinks";
 
 const Sidebar = () => {
   return (
-    <aside className="hidden lg:flex w-72 h-full flex-col border-r fixed top-0 left-0 border-amazon-lightNavy bg-amazon-navy">
-      <div className="border-b border-amazon-lightNavy p-6">
+    <aside className="hidden lg:flex w-72 h-full flex-col border-r fixed top-0 left-0 border-amazon-border bg-amazon-surface">
+      <div className="border-b border-amazon-border px-6 py-4">
         <p className="text-xs tracking-[5px] text-amazon-yellow uppercase">
           COMMERCE
         </p>
-        <h2 className="text-2xl font-bold text-white">Admin Panel</h2>
+        <h2 className="text-2xl font-bold text-amazon-textDark">Admin Panel</h2>
       </div>
 
       <nav className="flex-1 space-y-1 p-5">
