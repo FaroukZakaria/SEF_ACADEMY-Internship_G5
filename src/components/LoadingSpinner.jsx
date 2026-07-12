@@ -31,7 +31,7 @@ export default function LoadingSpinner({
         <span className="relative h-1.5 w-1.5 rounded-full bg-amazon-orange" />
       </div>
 
-      <div className="flex w-full max-w-[200px] flex-col items-center gap-4">
+      <div className="flex w-full max-w-50 flex-col items-center gap-4">
         <p className="text-[13px] font-medium tracking-wide text-amazon-textDark">
           {message}
         </p>
