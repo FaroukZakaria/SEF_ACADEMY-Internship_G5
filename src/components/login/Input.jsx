@@ -33,7 +33,7 @@ const Input = ({ label, type, placeholder, register, error, icon }) => {
         )}
       </div>
 
-      {error && <p className="mt-1 text-sm text-red-500">{error.message}</p>}
+      {error && <p className="mt-1 text-sm text-destructive">{error.message}</p>}
     </div>
   );
 };

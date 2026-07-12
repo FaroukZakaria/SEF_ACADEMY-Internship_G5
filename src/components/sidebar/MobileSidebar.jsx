@@ -12,15 +12,15 @@ const MobileSidebar = ({ open, setOpen }) => {
       )}
 
       <aside
-        className={`fixed left-0 top-20 z-50 h-[calc(100vh-5rem)] w-72 bg-amazon-navy/90 transition-transform duration-300 lg:hidden
+        className={`fixed left-0 top-20 z-50 h-[calc(100vh-5rem)] w-72 bg-amazon-surface transition-transform duration-300 lg:hidden
         ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <div className="border-b border-amazon-lightNavy p-5">
+        <div className="border-b border-amazon-border p-5">
           <p className="text-xs tracking-[5px] text-amazon-yellow uppercase">
             COMMERCE
           </p>
 
-          <h2 className="text-2xl font-bold text-white">Admin Panel</h2>
+          <h2 className="text-2xl font-bold text-amazon-textDark">Admin Panel</h2>
         </div>
 
         <nav className="space-y-1 px-5 py-3">
@@ -33,7 +33,7 @@ const MobileSidebar = ({ open, setOpen }) => {
           ))}
         </nav>
 
-        <div className="absolute bottom-5 left-0 mx-4 rounded-2xl bg-linear-to-br from-amazon-orange to-amazon-yellow text-amazon-navy p-2 lg:p-6">
+        <div className="absolute bottom-5 left-0 mx-4 rounded-2xl bg-linear-to-br from-amazon-orange to-amazon-yellow text-amazon-navy p-4">
           <p className="mb-2 text-xs tracking-[6px]">LIVE</p>
           <p className="text-sm font-semibold leading-6">
             Connected to the E-Commerce API
