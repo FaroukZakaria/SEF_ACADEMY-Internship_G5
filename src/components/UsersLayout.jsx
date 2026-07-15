@@ -6,6 +6,7 @@ import UsersView from "./users/UsersView";
 import LoadingSpinner from "./LoadingSpinner";
 import axios from "/src/api/axios";
 import ProtectedRoute from "./ProtectedRoute";
+import UsersTable from "./users/UsersTable";
 
 const UsersLayout = () => {
   const [isSessionLoading, setIsSessionLoading] = useState(true);
@@ -37,7 +38,7 @@ const UsersLayout = () => {
         <div className="dashboard-main bg-amazon-bg lg:pl-72">
         <Topbar userData={userData} open={open} onMenuClick={() => setOpen((prev) => !prev)} />
         <ProtectedRoute>
-             <UsersView />
+          <UsersView />
         </ProtectedRoute>
         </div>
         </>}
