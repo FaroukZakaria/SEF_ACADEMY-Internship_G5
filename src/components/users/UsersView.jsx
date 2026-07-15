@@ -72,8 +72,7 @@ export default function UsersView() {
       )}
 
       <UserStatusCard refreshTrigger={refreshTrigger} />
-
-      {/* <UsersTable /> */}
+      <UsersTable />
     </div>
   );
 }
