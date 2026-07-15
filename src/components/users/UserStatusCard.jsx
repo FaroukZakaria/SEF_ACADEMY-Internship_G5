@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { IoPeopleOutline, IoShieldOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
@@ -56,19 +55,19 @@ export default function UserStatusCard({ refreshTrigger }) {
         <div
           key={title}
           className="rounded-3xl border border-amazon-border bg-amazon-surface p-6 shadow-lg
-                     dark:border-amazon-lightNavy dark:bg-amazon-navy transition-colors"
+                     transition-colors"
         >
           <div className="flex items-center justify-between">
             <div className="min-w-0">
               {loading ? (
                 <>
-                  <div className="h-4 w-24 animate-pulse rounded-md bg-amazon-border dark:bg-amazon-lightNavy" />
-                  <div className="mt-3 h-8 w-14 animate-pulse rounded-md bg-amazon-border dark:bg-amazon-lightNavy" />
+                  <div className="h-4 w-24 animate-pulse rounded-md bg-amazon-border" />
+                  <div className="mt-3 h-8 w-14 animate-pulse rounded-md bg-amazon-border" />
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-amazon-textLight dark:text-slate-400">{title}</p>
-                  <h3 className="mt-2 text-3xl font-bold text-amazon-textDark dark:text-white">
+                  <p className="text-sm text-amazon-textLight">{title}</p>
+                  <h3 className="mt-2 text-3xl font-bold text-amazon-textDark">
                     {value}
                   </h3>
                 </>
