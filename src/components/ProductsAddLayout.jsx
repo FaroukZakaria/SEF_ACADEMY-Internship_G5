@@ -7,7 +7,6 @@ import DashboardView from "../pages/DashboardView";
 import LoadingSpinner from "./LoadingSpinner";
 import axios from "/src/api/axios";
 import ProtectedRoute from "./ProtectedRoute";
-import ViewProduct from "../pages/ViewProduct";
 
 const ProductsAddLayout = () => {
   const [isSessionLoading, setIsSessionLoading] = useState(true);
