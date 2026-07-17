@@ -9,8 +9,8 @@ const ProductsView = () => {
     <div className="px-10 lg:px-17 pt-10">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-6 border border-amazon-orange/20 shadow bg-linear-to-tr from-amazon-orange/20 to-amazon-yellow/30 p-8 rounded-4xl">
         <div className="flex items-center gap-5">
-          <div className="bg-amazon-yellow/50 w-20 h-20 rounded-3xl flex items-center justify-center">
-            <BsBoxSeam size={32} className="text-amazon-orange" />
+          <div className="bg-amazon-yellow/50 w-18 h-18 rounded-2xl flex items-center justify-center border border-amazon-orange py-2">
+            <BsBoxSeam size={30} className="text-amazon-orange" />
           </div>
           <div className="title">
             <p className="font-light uppercase tracking-[0.3em] text-amazon-orange">
