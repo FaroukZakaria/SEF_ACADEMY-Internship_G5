@@ -7,10 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import QuickEditProduct from "../QuickEditProduct"
 import SearchProductBar from "./SearchProductBar"
 import { FaBoxOpen } from "react-icons/fa"; 
+import ProductStatusCard from "../ProductStatusCard";
 import AllProductsSkeleton from "./AllProductsSkeleton"
 
 const AllProducts = () => {
-    const [productCards, setproductCards] = useState(null);
+    const [productData, setproductData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quickEditProduct, setQuickEditProduct] = useState(null);
 
@@ -19,7 +20,7 @@ const AllProducts = () => {
         const fetchData = async () => {
         try {
             const { data } = await api.get("/products");
-            setproductCards(data);
+            setproductData(data);
         } catch (error) {
             console.log(error);
         } finally {
@@ -40,7 +41,7 @@ const AllProducts = () => {
         try {
             await api.delete(`/products/${productId}`);
             toast.success("Product removed successfully");
-            setproductCards((prev) => ({
+            setproductData((prev) => ({
                 ...prev,
                 products: prev.products.filter((p) => p._id !== productId),
             }));
@@ -50,7 +51,7 @@ const AllProducts = () => {
     };
 
     const handleQuickEditSuccess = (updatedProduct) => {
-        setproductCards((prev) => ({
+        setproductData((prev) => ({
             ...prev,
             products: prev.products.map((product) => product._id === updatedProduct._id ? updatedProduct : product)
         }))
@@ -66,7 +67,7 @@ const AllProducts = () => {
         if (subcategory) 
             params.append("subcategory", subcategory);
         const { data } = await api.get(`/products/search?${params.toString()}`);
-        setproductCards(data);
+        setproductData(data);
     } catch (error) {
         console.log(error);
     }
@@ -74,10 +75,11 @@ const AllProducts = () => {
 
     return(
         <div>
+            <ProductStatusCard productsStatistics={productData} />
             <SearchProductBar onSearch={handleSearch}/>
-            {productCards?.products.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-10 lg:px-17 mt-7">
-                    {productCards.products.map((product) => (
+            {productData?.products.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mt-7">
+                    {productData.products.map((product) => (
                         <ProductCard 
                             key={product._id} product={product} 
                             onView={() => navigate(`/products/view/${product._id}`)}

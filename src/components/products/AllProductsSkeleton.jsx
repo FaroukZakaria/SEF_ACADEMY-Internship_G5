@@ -1,7 +1,18 @@
 const AllProductsSkeleton = () => {
   return (
-    <div className="bg-amazon-surface border border-amazon-border rounded-2xl shadow-sm p-6 w-86/100 mx-auto mt-5">
-      <div className="mb-5 h-22 w-full rounded-3xl bg-amazon-border/60 animate-pulse flex justify-center items-center gap-4">
+    <div className="bg-amazon-surface border border-amazon-border rounded-2xl shadow-sm p-6 mx-auto mt-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-7">
+        {Array.from({ length: 4 }).map((_, index) => (
+            <div
+            key={index}
+            className="w-full rounded-4xl bg-amazon-border/60 p-5 animate-pulse h-35"
+            >
+            <div className="w-12 h-12 rounded-xl bg-amazon-border animate-pulse" />
+            <div className="h-4 w-16 rounded-md bg-amazon-border animate-pulse mt-3" />
+            </div>
+        ))}
+        </div>
+      <div className="mb-5 h-22 w-full rounded-3xl bg-amazon-border/60 animate-pulse flex justify-center items-center gap-4 mt-4">
         <div className="w-6/10 rounded-2xl h-16 bg-amazon-border"></div>
         <div className="bg-amazon-border rounded-xl py-4 h-16 w-24"></div>
         <div className="bg-amazon-border rounded-xl py-4 h-16 w-24"></div>
@@ -9,7 +20,7 @@ const AllProductsSkeleton = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6  mt-7">
         {Array.from({ length: 6 }).map((_, index) => (
-        <div className="rounded-4xl border border-amazon-border bg-amazon-surface w-full overflow-hidden animate-pulse">
+        <div key={index} className="rounded-4xl border border-amazon-border bg-amazon-surface w-full overflow-hidden animate-pulse">
             <div className="relative overflow-hidden">
                 <div className="w-full h-60 bg-amazon-border/40" />
                 <div className="absolute bottom-3 left-0 right-0 mx-auto z-10 flex items-center justify-center gap-1.5 w-fit">

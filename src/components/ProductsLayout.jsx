@@ -8,7 +8,6 @@ import axios from "/src/api/axios";
 import ProtectedRoute from "./ProtectedRoute";
 import ProductsView from "./ProductsView";
 
-
 const ProductsLayout = () => {
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [userData, setUserData] = useState(null);

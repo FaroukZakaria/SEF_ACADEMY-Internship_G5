@@ -39,7 +39,7 @@ const ProductCard = ({product, onView, onEdit, onQuickEdit, onDelete}) => {
                         <button
                             ref={setPrevEl}
                             className="absolute left-3 top-1/2 -translate-y-1/2 z-10
-                            bg-white/90 hover:bg-white text-amazon-textDark rounded-full w-8 h-8 
+                            bg-amazon-surface/90 hover:bg-amazon-surface text-amazon-textDark rounded-full w-8 h-8 
                             flex items-center justify-center shadow-md cursor-pointer
                             opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                         >
@@ -48,7 +48,7 @@ const ProductCard = ({product, onView, onEdit, onQuickEdit, onDelete}) => {
                         <button
                             ref={setNextEl}
                             className="absolute right-3 top-1/2 -translate-y-1/2 z-10
-                            bg-white/90 hover:bg-white text-amazon-textDark rounded-full w-8 h-8 
+                            bg-amazon-surface/90 hover:bg-amazon-surface text-amazon-textDark rounded-full w-8 h-8 
                             flex items-center justify-center shadow-md cursor-pointer
                             opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                         >
@@ -68,9 +68,9 @@ const ProductCard = ({product, onView, onEdit, onQuickEdit, onDelete}) => {
                         <FaRegStar/> Featured
                     </span>
                 )}
-                <span className={`absolute bottom-3 right-3 text-xs font-bold px-3 py-2 rounded-full z-10
-                ${product.stock > 0 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
-                {product.stock > 0 ? `${product.stock} in stock` : "Out of Stock"}
+                <span className={`absolute bottom-3 right-3 text-xs font-bold px-3 py-2 rounded-full z-10 backdrop-blur-sm
+                ${product.stock > 0 ? "bg-green-700/50 text-green-300" : "bg-red-100 text-red-600"}`}>
+                {product.stock > 0 ? `${product.stock} in Stock` : "Out of Stock"}
                 </span>
             </div>
             <div className="pb-4 overflow-hidden w-9/10 mx-auto">
@@ -87,7 +87,7 @@ const ProductCard = ({product, onView, onEdit, onQuickEdit, onDelete}) => {
                 </div>
                 <div className="mb-4">
                     <span className="text-3xl font-extrabold">${product.price}{" "}</span>
-                    {product.discountPrice && (
+                    {product.discountPrice > 0 && (
                         <span className="text-green-700 font-medium">-${product.discountPrice} off</span>
                     )}
                 </div>
@@ -95,20 +95,20 @@ const ProductCard = ({product, onView, onEdit, onQuickEdit, onDelete}) => {
                     <div key={tag} className="text-xs font-medium text-white rounded-lg bg-amazon-lightNavy p-1.5">{tag}</div>
                 ))}</div>
                 <hr className="border-amazon-border/50 my-4"/>
-                <div className="text-xs font-medium text-amazon-textDark flex gap-3">
-                    <button className="border border-amazon-border bg-amazon-bg/60 rounded-xl py-2 w-20 cursor-pointer hover:bg-amazon-bg
+                <div className="text-xs font-medium text-amazon-textDark flex flex-wrap gap-2">
+                    <button className="border border-amazon-border bg-amazon-bg/60 rounded-xl py-2 px-3 shrink-0 whitespace-nowrap cursor-pointer hover:bg-amazon-bg
                      flex items-center justify-center gap-1.5" 
                     onClick={() => onView(product._id)}><FaRegEye/> View</button>
-                    <button className="border border-amazon-border bg-amazon-bg/60 rounded-xl py-2 w-20 cursor-pointer hover:bg-amazon-bg
+                    <button className="border border-amazon-border bg-amazon-bg/60 rounded-xl py-2 px-3 shrink-0 whitespace-nowrap cursor-pointer hover:bg-amazon-bg
                      flex items-center justify-center gap-1.5" 
                     onClick={() => onEdit(product._id)}><FaRegEdit/> Edit</button>
-                    <button className="border border-amazon-border bg-amazon-bg/60 rounded-xl py-2 w-25 cursor-pointer hover:bg-amazon-bg
+                    <button className="border border-amazon-border bg-amazon-bg/60 rounded-xl py-2 px-3 shrink-0 whitespace-nowrap cursor-pointer hover:bg-amazon-bg
                      flex items-center justify-center gap-1" 
                     onClick={() => onQuickEdit(product._id)}><TbAdjustmentsHorizontal/> Quick Edit</button>
                 </div>
                 <div className="flex justify-end mt-4">
-                    <button className="text-xs font-medium text-red-500 border border-red-300 bg-red-100 rounded-xl
-                     py-2 w-20 relative flex justify-center items-center gap-1.5 cursor-pointer hover:bg-red-200" 
+                    <button className="text-xs font-medium text-red-500 border border-red-300 bg-red-200 rounded-xl
+                     py-2 px-3 shrink-0 whitespace-nowrap relative flex justify-center items-center gap-1.5 cursor-pointer hover:bg-red-200" 
                     onClick={() => onDelete(product._id)}><FaRegTrashAlt/> Delete</button>
                 </div>
             </div>
