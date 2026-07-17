@@ -95,8 +95,7 @@ export default function CreateUserForm({ onClose, onSuccess }) {
 
   return (
     <div
-      className="rounded-3xl border border-amazon-border bg-amazon-surface p-6 shadow-lg
-                 dark:border-amazon-lightNavy dark:bg-amazon-navy transition-colors"
+      className="rounded-3xl border border-amazon-border bg-amazon-surface p-6 shadow-lg transition-colors"
     >
       {/* Header */}
       <div className="flex items-start justify-between">
@@ -105,10 +104,10 @@ export default function CreateUserForm({ onClose, onSuccess }) {
             <IoPersonAddOutline className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-amazon-textDark dark:text-white">
+            <h3 className="text-lg font-bold text-amazon-textDark">
               Create New User
             </h3>
-            <p className="text-sm text-amazon-textLight dark:text-slate-400">
+            <p className="text-sm text-amazon-textLight">
               Fill in the details below to add a new user
             </p>
           </div>
@@ -117,8 +116,7 @@ export default function CreateUserForm({ onClose, onSuccess }) {
         <button
           onClick={onClose}
           aria-label="Close"
-          className="rounded-xl p-2 text-amazon-textLight hover:bg-amazon-bg
-                     dark:text-slate-400 dark:hover:bg-amazon-lightNavy transition"
+          className="rounded-xl p-2 text-amazon-textLight hover:bg-amazon-bg transition"
         >
           <IoClose className="h-5 w-5" />
         </button>
@@ -163,7 +161,7 @@ export default function CreateUserForm({ onClose, onSuccess }) {
 
       {/* Footer */}
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-amazon-textLight dark:text-slate-400">
+        <p className="text-xs text-amazon-textLight">
           <span className="text-red-500">*</span> Required fields
         </p>
 
@@ -171,9 +169,7 @@ export default function CreateUserForm({ onClose, onSuccess }) {
           <button
             onClick={handleClear}
             disabled={submitting}
-            className="rounded-2xl border border-amazon-border px-5 py-2.5 font-semibold
-                       text-amazon-textDark hover:bg-amazon-bg transition disabled:opacity-50
-                       dark:border-amazon-lightNavy dark:text-white dark:hover:bg-amazon-lightNavy"
+            className="rounded-2xl border border-amazon-border px-5 py-2.5 font-semibold text-amazon-textDark hover:bg-amazon-bg transition disabled:opacity-50"
           >
             Clear
           </button>
@@ -200,15 +196,14 @@ export default function CreateUserForm({ onClose, onSuccess }) {
 function Field({ label, required, ...props }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-semibold uppercase tracking-[0.15em] text-amazon-textLight dark:text-slate-400">
+      <label className="text-xs font-semibold uppercase tracking-[0.15em] text-amazon-textLight">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <input
         {...props}
         className="w-full rounded-2xl border border-amazon-border bg-amazon-bg px-4 py-3
                    text-amazon-textDark outline-none focus:ring-2 focus:ring-amazon-orange
-                   dark:border-amazon-lightNavy dark:bg-amazon-lightNavy dark:text-white
-                   placeholder:text-amazon-textLight/70 dark:placeholder:text-slate-500"
+                   placeholder:text-amazon-textLight/70"
       />
     </div>
   );
