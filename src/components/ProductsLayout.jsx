@@ -7,7 +7,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import axios from "/src/api/axios";
 import ProtectedRoute from "./ProtectedRoute";
 import ProductsView from "./ProductsView";
-import ProductStatusCard from "./ProductStatusCard";
+
 
 const ProductsLayout = () => {
   const [isSessionLoading, setIsSessionLoading] = useState(true);
@@ -40,7 +40,6 @@ const ProductsLayout = () => {
         <Topbar userData={userData} open={open} onMenuClick={() => setOpen((prev) => !prev)} />
         <ProtectedRoute>
             <ProductsView />
-            <ProductStatusCard />
         </ProtectedRoute>
         </div>
         </>}
