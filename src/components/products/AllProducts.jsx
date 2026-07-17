@@ -43,6 +43,7 @@ const AllProducts = () => {
             toast.success("Product removed successfully");
             setproductData((prev) => ({
                 ...prev,
+                totalProducts: prev.totalProducts - 1,
                 products: prev.products.filter((p) => p._id !== productId),
             }));
         } catch (error) {
@@ -82,7 +83,7 @@ const AllProducts = () => {
                     {productData.products.map((product) => (
                         <ProductCard 
                             key={product._id} product={product} 
-                            onView={() => navigate(`/products/view/${product._id}`)}
+                            onView={() => navigate(`/products/${product._id}`)}
                             onEdit={() => navigate(`/products/edit/${product._id}`)}
                             onQuickEdit={() => setQuickEditProduct(product)}
                             onDelete={() => handleDelete(product._id)}
