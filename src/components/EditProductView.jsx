@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../api/axios";
 
-
 import EditProductSkeleton from "./EditProductSkeleton";
 
 const CATEGORY_OPTIONS = [
@@ -228,10 +227,11 @@ export default function EditProductView() {
         if (Array.isArray(product.images)) {
           setImages(
             product.images.map((img, idx) => ({
-              id: img.public_id || `existing-${idx}`,
+              id: img._id || img.public_id || `existing-${idx}`,
               file: null,
               url: typeof img === "string" ? img : img.url,
               publicId: img.public_id || null,
+              dbId: img._id || null, // 👈 التقاط الـ ID الحقيقي من قاعدة البيانات
               isExisting: true,
               isMarkedForRemoval: false, 
             }))
@@ -242,6 +242,7 @@ export default function EditProductView() {
               file: null,
               url: product.imageCover,
               publicId: null,
+              dbId: null,
               isExisting: true,
               isMarkedForRemoval: false,
            }]);
@@ -287,6 +288,7 @@ export default function EditProductView() {
         file,
         url: URL.createObjectURL(file),
         publicId: null,
+        dbId: null,
         isExisting: false,
         isMarkedForRemoval: false,
       }));
@@ -357,6 +359,11 @@ export default function EditProductView() {
     setIsSubmitting(true);
     try {
       const payload = new FormData();
+      
+      // 👈 تم إضافة معرف المنتج هنا تحسباً لاحتياج الـ Backend إليه
+      payload.append("_id", id);
+      payload.append("productId", id);
+
       payload.append("name", formData.name.trim());
       payload.append("shortDescription", formData.shortDescription.trim());
       payload.append("description", formData.description.trim());
@@ -380,12 +387,17 @@ export default function EditProductView() {
         }
       });
 
-      const imagesToDelete = images.filter(img => img.isMarkedForRemoval && img.isExisting && img.publicId);
-      imagesToDelete.forEach((img) => payload.append("deletedImages", img.publicId));
-
-      await api.patch(`/products/update/${id}`, payload, { 
-        headers: { "Content-Type": "multipart/form-data" } 
+      // 👈 تم إصلاح مشكلة حذف الصور (تصفية كلمة "undefined")
+      const imagesToDelete = images.filter(img => img.isMarkedForRemoval && img.isExisting);
+      imagesToDelete.forEach((img) => {
+        const idToDelete = img.dbId || img.publicId;
+        if (idToDelete && idToDelete !== "undefined" && idToDelete !== "null") {
+          payload.append("deletedImages", idToDelete);
+        }
       });
+
+      // 👈 تم إزالة الهيدرز اليدوية ليقوم Axios بإنشاء الـ boundary بنفسه
+      await api.patch(`/products/update/${id}`, payload); 
       
       toast.success("Product updated successfully!");
       navigate("/dashboard/products");
@@ -526,7 +538,16 @@ export default function EditProductView() {
             </div>
           </div>
 
-          <div class="mt-6 rounded-3xl border border-emerald-400/20 bg-emerald-500/5 p-4 text-sm text-emerald-100"><div class="flex items-center gap-2 font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles h-4 w-4"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg> Senior UX</div><p class="mt-1 text-emerald-100/90">Edit without losing the existing product story, while still adding fresh media.</p></div>
+          <div className="mt-6 rounded-3xl border border-emerald-400/20 bg-emerald-500/5 p-4 text-sm text-emerald-100">
+            <div className="flex items-center gap-2 font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sparkles h-4 w-4">
+                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                <path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path>
+              </svg> 
+              Senior UX
+            </div>
+            <p className="mt-1 text-emerald-100/90">Edit without losing the existing product story, while still adding fresh media.</p>
+          </div>
         </div>
 
         {/* RIGHT COLUMN: Product Details Form */}
@@ -567,7 +588,7 @@ export default function EditProductView() {
                 <svg className="h-4 w-4 animate-spin text-amazon-navy" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                </svg>
+                </svg>git
               )}
               {isSubmitting ? "Saving..." : "Save Changes"}
             </button>
