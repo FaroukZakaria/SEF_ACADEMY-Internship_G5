@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import api from "../api/axios";
-import ProductStatusCardSkeleton from "./ProductStatusCardSkeleton";
 import { BsBoxSeam } from "react-icons/bs";
 import { FaRegStar } from "react-icons/fa";
 import { IoMdTrendingUp } from "react-icons/io";
@@ -8,27 +5,7 @@ import { TbHexagons } from "react-icons/tb";
 
 
 
-const ProductStatusCard = () => {
-  const [productsStatistics, setproductsStatistics] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await api.get("/products");
-        setproductsStatistics(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <ProductStatusCardSkeleton />;
-  }
+const ProductStatusCard = ({productsStatistics}) => {
   const cardStatistics = [
     {
       icon: <BsBoxSeam size={22} className="text-amazon-orange" />,
