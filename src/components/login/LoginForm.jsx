@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../schemas/loginSchema";
-import Input from "./Input";
+import Input from "../shared/Input";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
@@ -29,7 +29,7 @@ const LoginForm = () => {
 
       const response = await login(data);
 
-      saveUser(response.token, response.user.role, response.user.username);
+      saveUser(response.token, response.user.role, response.user.username, response.user.email);
 
       toast.success(response.message);
 

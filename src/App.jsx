@@ -10,12 +10,14 @@ import DashboardView from "./pages/DashboardView";
 // import Settings from './pages/SettingsView';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import AdminOrdersPage from "./pages/AdminOrdersPage"; // أضيفي هذا السطر مع باقي الاستيرادk
 import TemplateLayout from "./components/TemplateLayout";
 import DashboardLayout from "./components/DashboardLayout";
 import UsersLayout from "./components/UsersLayout";
 import ProductsLayout from "./components/ProductsLayout";
 import ProductsAddLayout from "./components/ProductsAddLayout";
+import ViewProductLayout from "./components/ViewProductLayout";
+
 import OrdersLayout from "./components/OrdersLayout";
 import CartLayout from "./components/CartLayout";
 import SettingsLayout from "./components/SettingsLayout";
@@ -23,6 +25,8 @@ import SettingsLayout from "./components/SettingsLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import useThemeStore from "./store/themeStore";
 import { useEffect } from "react";
+import EditProductView from "./components/EditProductView";
+import EditProductViewLayout from "./components/EditProductViewLayout";
 
 function App() {
   const { theme } = useThemeStore();
@@ -64,14 +68,31 @@ function App() {
               <ProductsAddLayout />
             }
           />
+           <Route
+           path="/products/edit/:id"
+           element={<EditProductViewLayout />
+           }
+           />
+          <Route
+            path="/products/add"
+            element={
+              <ProductsAddLayout />
+            }
+          />
+
+          <Route
+            path="/products/:id"
+            element={
+              <ViewProductLayout />
+            }
+            />
 
           <Route
             path="/orders"
             element={
-              <OrdersLayout />
+              <AdminOrdersPage />
             }
           />
-
           <Route
             path="/cart"
             element={

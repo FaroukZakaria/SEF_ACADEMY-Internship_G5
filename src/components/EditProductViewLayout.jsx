@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import AddProductPage from "../pages/AddProductPage";
 import Sidebar from "./sidebar/Sidebar";
 import MobileSidebar from "./sidebar/MobileSidebar";
 import Topbar from "./Topbar";
 import DashboardView from "../pages/DashboardView";
 import LoadingSpinner from "./LoadingSpinner";
-import axios from "/src/api/axios";
-import ProtectedRoute from "./ProtectedRoute";
 
-const ProductsAddLayout = () => {
+import axios from "../api/axios"; 
+import ProtectedRoute from "./ProtectedRoute";
+import EditProductView from "./EditProductView";
+
+const EditProductViewLayout = ({ children }) => {
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
@@ -31,19 +32,25 @@ const ProductsAddLayout = () => {
 
   return (
     <>
-        {isSessionLoading ? <LoadingSpinner message="Loading session data..." /> :
+      {isSessionLoading ? (
+        <LoadingSpinner message="Loading session data..." />
+      ) : (
         <>
-        <Sidebar />
-        <MobileSidebar open={open} setOpen={setOpen} />
-        <div className="dashboard-main bg-amazon-bg lg:pl-72">
-        <Topbar userData={userData} open={open} onMenuClick={() => setOpen((prev) => !prev)} />
-       <ProtectedRoute>
-         <AddProductPage />
-       </ProtectedRoute>
-        </div>
-        </>}
+          <Sidebar />
+          <MobileSidebar open={open} setOpen={setOpen} />
+          {/* إضافة min-h-screen هنا ضرورية عشان الخلفية تغطي الشاشة كلها */}
+          <div className="dashboard-main min-h-screen bg-amazon-bg lg:pl-72 transition-colors duration-300">
+            <Topbar userData={userData} open={open} onMenuClick={() => setOpen((prev) => !prev)} />
+            <ProtectedRoute>
+              <EditProductView/>
+            </ProtectedRoute>
+          </div>
+        </>
+      )}
     </>
   );
 };
 
-export default ProductsAddLayout;
+
+
+export default EditProductViewLayout;
