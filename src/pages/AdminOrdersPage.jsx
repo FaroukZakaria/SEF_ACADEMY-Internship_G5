@@ -1,7 +1,7 @@
+// src/pages/AdminOrdersPage.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import api from "../api/axios";
 import OrderSkeleton from '../components/admin/OrderSkeleton';
-import OrderCardMobile from '../components/admin/OrderCardMobile';
 
 const statusBadgeClasses = {
   pending: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
@@ -30,9 +30,18 @@ export default function AdminOrdersPage() {
   const [totalOrders, setTotalOrders] = useState(0);
   
   const [searchId, setSearchId] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [paymentFilter, setPaymentFilter] = useState('');
-  const [methodFilter, setMethodFilter]  = useState('all');
+  const [methodFilter, setMethodFilter] = useState('all');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchId);
+      setPage(1);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchId]);
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -51,13 +60,11 @@ export default function AdminOrdersPage() {
       const response = await api.get('/orders/admin', { params });
       const data = response.data;
       let fetchedOrders = data.orders || [];
-      if (searchId.trim()) {
-        const cleanSearch = searchId.trim().replace(/^#/, '').toLowerCase();
-        fetchedOrders = fetchedOrders.filter(order => {
-          const fullId = order._id.toLowerCase();
-          const shortId = order._id.slice(-8).toLowerCase();
-          return fullId.includes(cleanSearch) || shortId.includes(cleanSearch);
-        });
+      
+      if (debouncedSearch.trim()) {
+        fetchedOrders = fetchedOrders.filter(order => 
+          order._id.toLowerCase().includes(debouncedSearch.trim().toLowerCase())
+        );
       }
 
       if (methodFilter !== 'all') {
@@ -68,23 +75,22 @@ export default function AdminOrdersPage() {
 
       setOrders(fetchedOrders);
       setTotalPages(data.totalPages || 1);
-      setTotalOrders(data.total || fetchedOrders.length);
+      setTotalOrders(data.total || 0);
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
-  }, [page, statusFilter, paymentFilter, searchId, methodFilter]);
+  }, [page, statusFilter, paymentFilter, debouncedSearch, methodFilter]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchOrders();
-    }, 300);
-    return () => clearTimeout(timer);
+    fetchOrders();
   }, [fetchOrders]);
 
   return (
     <div className="p-6 bg-amazon-bg min-h-screen font-sans">
+      
+      {/* Top Header & Badge */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
         <div>
           <span className="text-xs uppercase tracking-wider text-amazon-textLight font-semibold">Admin • Management</span>
@@ -97,6 +103,7 @@ export default function AdminOrdersPage() {
         </div>
       </div>
 
+      {/* Search and Filters Bar */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="relative md:col-span-1">
           <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-amazon-textLight">
@@ -108,7 +115,7 @@ export default function AdminOrdersPage() {
             type="text"
             placeholder="Search Order ID..."
             value={searchId}
-            onChange={(e) => { setSearchId(e.target.value); setPage(1); }}
+            onChange={(e) => setSearchId(e.target.value)}
             className="w-full bg-amazon-surface border border-amazon-border rounded-xl pl-11 pr-4 py-3 text-sm text-amazon-textDark placeholder-amazon-textLight focus:outline-none focus:border-amazon-orange transition-colors"
           />
         </div>
@@ -142,7 +149,7 @@ export default function AdminOrdersPage() {
 
         <select
           value={methodFilter}
-          onChange={(e) => { setMethodFilter(e.target.value); setPage(1); }}
+          onChange={(e) => setMethodFilter(e.target.value)}
           className="bg-amazon-surface border border-amazon-border rounded-xl px-4 py-3 text-sm text-amazon-textDark focus:outline-none focus:border-amazon-orange transition-colors"
         >
           <option value="all">All methods</option>
@@ -151,7 +158,9 @@ export default function AdminOrdersPage() {
         </select>
       </div>
 
+      {/* Main Content Area & Table with Horizontal Scroll */}
       <div className="bg-amazon-surface border border-amazon-border rounded-2xl shadow-xl overflow-hidden mb-6">
+        
         {error && (
           <div className="p-12 text-center space-y-4">
             <p className="text-destructive font-medium">{error}</p>
@@ -183,76 +192,69 @@ export default function AdminOrdersPage() {
         )}
 
         {!loading && !error && orders.length > 0 && (
-          <>
-            <div className="block md:hidden p-4 space-y-4">
-              {orders.map((order) => (
-                <OrderCardMobile key={order._id} order={order} />
-              ))}
-            </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[700px]">
+              <thead>
+                <tr className="border-b border-amazon-border text-xs font-semibold uppercase tracking-wider text-amazon-textLight">
+                  <th className="py-4 px-6">Order</th>
+                  <th className="py-4 px-6">Customer</th>
+                  <th className="py-4 px-6">Date</th>
+                  <th className="py-4 px-6">Status</th>
+                  <th className="py-4 px-6">Payment</th>
+                  <th className="py-4 px-6 text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-amazon-border text-sm">
+                {orders.map((order) => {
+                  const customerName = order.shippingAddress?.fullName || '---';
+                  const initialLetter = customerName !== '---' ? customerName.charAt(0).toUpperCase() : 'U';
+                  const formattedDate = new Date(order.createdAt).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                  });
 
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-amazon-border text-xs font-semibold uppercase tracking-wider text-amazon-textLight">
-                    <th className="py-4 px-6">Order</th>
-                    <th className="py-4 px-6">Customer</th>
-                    <th className="py-4 px-6">Date</th>
-                    <th className="py-4 px-6">Status</th>
-                    <th className="py-4 px-6">Payment</th>
-                    <th className="py-4 px-6 text-right">Total</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-amazon-border text-sm">
-                  {orders.map((order) => {
-                    const customerName = order.shippingAddress?.fullName || '---';
-                    const initialLetter = customerName !== '---' ? customerName.charAt(0).toUpperCase() : 'U';
-                    const formattedDate = new Date(order.createdAt).toLocaleDateString('en-GB', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric'
-                    });
-
-                    return (
-                      <tr key={order._id} className="hover:bg-amazon-lightNavy/30 transition-colors">
-                        <td className="py-4 px-6 font-medium text-amazon-orange">
-                          #{order._id.slice(-8).toUpperCase()}
-                        </td>
-                        <td className="py-4 px-6">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 rounded-full bg-amazon-lightNavy flex items-center justify-center font-bold text-xs text-amazon-textLight">
-                              {initialLetter}
-                            </div>
-                            <span className="text-amazon-textDark font-medium">{customerName}</span>
+                  return (
+                    <tr key={order._id} className="hover:bg-amazon-lightNavy/30 transition-colors">
+                      <td className="py-4 px-6 font-medium text-amazon-orange whitespace-nowrap">
+                        #{order._id.slice(-8).toUpperCase()}
+                      </td>
+                      <td className="py-4 px-6 whitespace-nowrap">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded-full bg-amazon-lightNavy flex items-center justify-center font-bold text-xs text-amazon-textLight">
+                            {initialLetter}
                           </div>
-                        </td>
-                        <td className="py-4 px-6 text-amazon-textLight">
-                          {formattedDate}
-                        </td>
-                        <td className="py-4 px-6">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize inline-block ${statusBadgeClasses[order.status] || 'bg-gray-700 text-gray-300'}`}>
-                            ● {order.status}
+                          <span className="text-amazon-textDark font-medium">{customerName}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-6 text-amazon-textLight whitespace-nowrap">
+                        {formattedDate}
+                      </td>
+                      <td className="py-4 px-6 whitespace-nowrap">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize inline-block ${statusBadgeClasses[order.status] || 'bg-gray-700 text-gray-300'}`}>
+                          ● {order.status}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6 whitespace-nowrap">
+                        <div className="space-y-1">
+                          <span className={`px-2.5 py-0.5 rounded text-[11px] font-bold uppercase inline-block ${paymentBadgeClasses[order.paymentStatus] || 'bg-gray-700 text-gray-300'}`}>
+                            {order.paymentStatus}
                           </span>
-                        </td>
-                        <td className="py-4 px-6">
-                          <div className="space-y-1">
-                            <span className={`px-2.5 py-0.5 rounded text-[11px] font-bold uppercase inline-block ${paymentBadgeClasses[order.paymentStatus] || 'bg-gray-700 text-gray-300'}`}>
-                              {order.paymentStatus}
-                            </span>
-                            <div className="text-xs text-amazon-textLight capitalize">{order.paymentMethod}</div>
-                          </div>
-                        </td>
-                        <td className="py-4 px-6 text-right font-bold text-amazon-textDark">
-                          {order.totalPrice} EGP
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </>
+                          <div className="text-xs text-amazon-textLight capitalize">{order.paymentMethod}</div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-6 text-right font-bold text-amazon-textDark whitespace-nowrap">
+                        {order.totalPrice} EGP
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         )}
 
+        {/* Custom Pagination Style */}
         {!loading && totalPages > 1 && (
           <div className="flex items-center justify-between px-6 py-4 border-t border-amazon-border bg-amazon-surface">
             <span className="text-sm text-amazon-textLight">
@@ -267,6 +269,7 @@ export default function AdminOrdersPage() {
               >
                 &lt;
               </button>
+
               {[...Array(totalPages)].map((_, i) => {
                 const pageNum = i + 1;
                 const isActive = page === pageNum;
@@ -284,6 +287,7 @@ export default function AdminOrdersPage() {
                   </button>
                 );
               })}
+
               <button
                 onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
                 disabled={page === totalPages}
@@ -294,7 +298,9 @@ export default function AdminOrdersPage() {
             </div>
           </div>
         )}
+
       </div>
+
     </div>
   );
 }
